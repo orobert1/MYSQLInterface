@@ -24,9 +24,9 @@ abstract class AbstractClass
       }
     }
 
-    public static function all( $class ){
+    public static function all( $class, $database ){
       $connection = Connect::getConnection();
-      $query = 'SELECT * FROM auxAbris.'.$class;
+      $query = 'SELECT * FROM '.$database.".".$class;
       $res = $connection->query($query);
       $output = array();
       while( $row = mysqli_fetch_object( $res ) ){
@@ -35,10 +35,10 @@ abstract class AbstractClass
       return $output;
     }
 
-    public function fuck( $className, $params ){
+    public function new( $className, $params, $database ){
       $connection = Connect::getConnection();
       $this->checkTable( $className, $params );
-      $query = 'INSERT INTO auxAbris.'.$className.' (';
+      $query = 'INSERT INTO '.$database.".".$className.' (';
       foreach( $params as $name=>$value ){
           $query = $query.' '.$name.',';
       }
@@ -64,7 +64,7 @@ abstract class AbstractClass
       $res = $connection->query($query);
     }
 
-    public function getParentClass( $id, $parentClass, $names ){
+    public function getParent( $id, $parentClass, $names ){
       $connection = Connect::getConnection();
       $query = "SELECT * FROM ".$parentClass." WHERE id = '".$id."'";
       $res = $connection->query($query);
